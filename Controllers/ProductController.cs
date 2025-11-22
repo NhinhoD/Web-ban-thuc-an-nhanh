@@ -19,31 +19,46 @@ namespace ASM_C_4.Controllers
 		{
 			return View();
 		}
-		public async Task<IActionResult> Details(long Id)
-		{
-			if (Id == null)
-			{
-				return RedirectToAction("Index");
-			}
-			var productById = _dataContext.Products.
-				Include(p => p.Rating).Where(p => p.Id == Id).FirstOrDefault(); // category = 4
-																							 //related product
-			var relatedProducts = await _dataContext.Products
-				.Where(p => p.CategoryId == productById.CategoryId && p.Id != productById.Id)
-				.Take(4)
-				.ToListAsync();
-			ViewBag.RelatedProducts = relatedProducts;
-			// Lấy danh sách đánh giá của sản phẩm
-			ViewBag.Reviews = productById.Rating != null ? productById.Rating.ToList() : new List<RatingModel>();
+        public async Task<IActionResult> Details(long Id)
+        {
+            if (Id == 0) // Id là kiểu long nên so sánh với 0, không phải null
+            {
+                return RedirectToAction("Index");
+            }
 
-			var viewModel = new ProductDetailsViewModel
-			{
-				ProductDetails = productById,
-				RatingDetails = productById.Rating ?? new List<RatingModel>()
-			};
-			return View(viewModel);
-		}
-		[HttpPost]
+            // 1. SỬA LỖI Ở ĐÂY: Thêm .Include(p => p.Brand) và .Include(p => p.Category)
+            var productById = await _dataContext.Products
+                .Include(p => p.Rating)
+                .Include(p => p.Brand)      // <--- QUAN TRỌNG: Khắc phục lỗi Null Brand
+                .Include(p => p.Category)   // <--- Nên thêm để hiển thị tên danh mục
+                .FirstOrDefaultAsync(p => p.Id == Id);
+
+            // 2. Kiểm tra nếu không tìm thấy sản phẩm (để tránh lỗi dòng dưới)
+            if (productById == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            // Related products
+            var relatedProducts = await _dataContext.Products
+                .Where(p => p.CategoryId == productById.CategoryId && p.Id != productById.Id)
+                .Take(4)
+                .ToListAsync();
+
+            ViewBag.RelatedProducts = relatedProducts;
+
+            // Lấy danh sách đánh giá
+            ViewBag.Reviews = productById.Rating != null ? productById.Rating.ToList() : new List<RatingModel>();
+
+            var viewModel = new ProductDetailsViewModel
+            {
+                ProductDetails = productById,
+                RatingDetails = productById.Rating ?? new List<RatingModel>()
+            };
+
+            return View(viewModel);
+        }
+        [HttpPost]
         public async Task<IActionResult> Search(string searchTerm)
         {
             var products = await _dataContext.Products
