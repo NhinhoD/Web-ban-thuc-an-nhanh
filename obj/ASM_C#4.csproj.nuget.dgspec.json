@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\C#4\\ASM\\ASM_C#5\\ASM_C#4.csproj": {}
+    "D:\\C4\\Web-ban-thuc-an-nhanh\\ASM_C#4.csproj": {}
   },
   "projects": {
-    "D:\\C#4\\ASM\\ASM_C#5\\ASM_C#4.csproj": {
+    "D:\\C4\\Web-ban-thuc-an-nhanh\\ASM_C#4.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\C#4\\ASM\\ASM_C#5\\ASM_C#4.csproj",
+        "projectUniqueName": "D:\\C4\\Web-ban-thuc-an-nhanh\\ASM_C#4.csproj",
         "projectName": "ASM_C#4",
-        "projectPath": "D:\\C#4\\ASM\\ASM_C#5\\ASM_C#4.csproj",
+        "projectPath": "D:\\C4\\Web-ban-thuc-an-nhanh\\ASM_C#4.csproj",
         "packagesPath": "C:\\Users\\duongpx\\.nuget\\packages\\",
-        "outputPath": "D:\\C#4\\ASM\\ASM_C#5\\obj\\",
+        "outputPath": "D:\\C4\\Web-ban-thuc-an-nhanh\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,7 +44,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -64,19 +65,23 @@
               "target": "Package",
               "version": "[8.0.10, )"
             },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-              "target": "Package",
-              "version": "[8.0.10, )"
-            },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.10, )"
             },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.10, )"
             }
           },
           "imports": [
@@ -98,7 +103,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -15,11 +15,29 @@ namespace ASM_C_4.Repository
 		public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Combo> Combos { get; set; }
         public DbSet<ComboProduct> ComboProducts { get; set; }
-		public DbSet<RatingModel> Ratings { get; set; }
+        public DbSet<RatingModel> Ratings { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
 
+            // Bắt buộc EF Core sử dụng tên bảng có dấu ngoặc kép và không thay đổi
+            // Nếu bạn đang dùng schema 'public' (mặc định của Supabase)
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                // Kiểm tra xem entity có phải là bảng Identity không
+                if (entity.GetTableName().StartsWith("AspNet"))
+                {
+                    // Đặt tên bảng với dấu ngoặc kép để PostgreSQL phân biệt hoa/thường
+                    entity.SetTableName(entity.GetTableName());
+
+                    // Đảm bảo tên khóa được viết hoa chính xác (tùy chọn)
+                    foreach (var key in entity.GetKeys())
+                    {
+                        key.SetName(key.GetName());
+                    }
+                }
+            }
             modelBuilder.Entity<ComboProduct>()
                 .HasKey(cp => new { cp.ComboId, cp.ProductId });
 

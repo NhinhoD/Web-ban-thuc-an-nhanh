@@ -5,28 +5,29 @@
 namespace ASM_C_4.Migrations
 {
     /// <inheritdoc />
-    public partial class ratings : Migration
+    public partial class CreateTable_ComboProducts : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Ratings",
+                name: "ComboProducts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<long>(type: "bigint", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Star = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ComboId = table.Column<long>(type: "bigint", nullable: false),
+                    ProductId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ratings", x => x.Id);
+                    table.PrimaryKey("PK_ComboProducts", x => new { x.ComboId, x.ProductId });
                     table.ForeignKey(
-                        name: "FK_Ratings_Products_ProductId",
+                        name: "FK_ComboProducts_Combos_ComboId",
+                        column: x => x.ComboId,
+                        principalTable: "Combos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ComboProducts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -34,8 +35,8 @@ namespace ASM_C_4.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ratings_ProductId",
-                table: "Ratings",
+                name: "IX_ComboProducts_ProductId",
+                table: "ComboProducts",
                 column: "ProductId");
         }
 
@@ -43,7 +44,7 @@ namespace ASM_C_4.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Ratings");
+                name: "ComboProducts");
         }
     }
 }
