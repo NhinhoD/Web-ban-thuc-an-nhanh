@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>ASM_C_4</RootNamespace>
     <UserSecretsId>5b7ef5fd-423e-4f23-bba5-f11690a0360b</UserSecretsId>
+    <AssemblyName>ASM_C_4</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
