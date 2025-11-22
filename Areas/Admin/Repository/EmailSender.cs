@@ -17,7 +17,7 @@ namespace ASM_C_4.Areas.Admin.Repository
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             // 1. Đọc cấu hình
-            var myEmail = "duongpxps38124@gmail.com";
+            var myEmail = _configuration["EmailSettings:Email"];
             var myPassword = _configuration["EmailSettings:Password"]; // Đọc từ Render Environment
 
             // 2. Tạo nội dung email bằng MimeKit (Chuẩn mới)
