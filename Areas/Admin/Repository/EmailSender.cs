@@ -1,5 +1,7 @@
-﻿using System.Net.Mail;
-using System.Net;
+﻿using MailKit.Net.Smtp;
+using MimeKit;
+using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace ASM_C_4.Areas.Admin.Repository
 {
@@ -7,37 +9,44 @@ namespace ASM_C_4.Areas.Admin.Repository
     {
         private readonly IConfiguration _configuration;
 
-        // Inject IConfiguration vào Constructor
         public EmailSender(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string email, string subject, string message)
         {
-            // 1. Đọc thông tin từ cấu hình (appsettings.json / Secrets / Environment Variables)
-            var mailHost = "smtp.gmail.com";
-            var mailPort = 587;
-            var mailEmail = _configuration["EmailSettings:Email"]; // Đọc email
-            var mailPassword = _configuration["EmailSettings:Password"]; // Đọc pass
+            // 1. Đọc cấu hình
+            var myEmail = "duongpxps38124@gmail.com";
+            var myPassword = _configuration["EmailSettings:Password"]; // Đọc từ Render Environment
 
-            // 2. Khởi tạo client
-            var client = new SmtpClient(mailHost, mailPort)
+            // 2. Tạo nội dung email bằng MimeKit (Chuẩn mới)
+            var emailMessage = new MimeMessage();
+            emailMessage.From.Add(new MailboxAddress("FastFood Shop", myEmail));
+            emailMessage.To.Add(new MailboxAddress("", email));
+            emailMessage.Subject = subject;
+
+            // Nội dung HTML
+            var bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = message;
+            emailMessage.Body = bodyBuilder.ToMessageBody();
+
+            // 3. Gửi email bằng MailKit (SmtpClient của MailKit xịn hơn System.Net.Mail)
+            using (var client = new SmtpClient())
             {
-                EnableSsl = true,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(mailEmail, mailPassword)
-            };
+                // Kết nối đến Gmail port 587 (STARTTLS)
+                // MailKit sẽ tự động thử IPv4 nếu IPv6 lỗi -> Khắc phục được lỗi "Network Unreachable"
+                await client.ConnectAsync("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
 
-            // 3. Gửi email
-            // Lưu ý: Email người gửi (from) PHẢI GIỐNG với email đăng nhập (mailEmail)
-            // Nếu khác nhau, Gmail sẽ chặn hoặc đánh dấu là Spam.
-            return client.SendMailAsync(
-                new MailMessage(from: mailEmail,
-                                to: email,
-                                subject,
-                                message
-                                ));
+                // Đăng nhập
+                await client.AuthenticateAsync(myEmail, myPassword);
+
+                // Gửi
+                await client.SendAsync(emailMessage);
+
+                // Ngắt kết nối
+                await client.DisconnectAsync(true);
+            }
         }
     }
 }
