@@ -1,27 +1,26 @@
-﻿# Giai đoạn 1: Build ứng dụng
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-# Copy file csproj và khôi phục thư viện
-# Dấu * đại diện cho tên file, giúp tránh lỗi gõ sai tên dự án phức tạp
+# Copy csproj và restore
 COPY *.csproj ./
 RUN dotnet restore
 
-# Copy toàn bộ source code và build bản Release
+# Copy code và build
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-# Giai đoạn 2: Chạy ứng dụng (Runtime)
+# --- BƯỚC MỚI: TỰ ĐỘNG ĐỔI TÊN FILE DLL ---
+# Tìm bất kỳ file .dll nào trong thư mục out trùng tên project và đổi thành app.dll
+# Cách này xử lý được cả tên có dấu # hay tên cũ/mới
+WORKDIR /app/out
+RUN mv *.dll app.dll || true
+
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/out .
 
-# Cấu hình cổng cho Render (Render mặc định check cổng 10000 nhưng .NET thường dùng 8080)
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
 
-# --- QUAN TRỌNG: KIỂM TRA TÊN FILE DLL ---
-# Mặc định Visual Studio giữ nguyên tên file là "ASM_C#4.dll".
-# Nhưng nếu deploy bị lỗi, hãy thử đổi thành "ASM_C_4.dll"
-# Sửa dòng cuối cùng này:
-ENTRYPOINT ["dotnet", "ASM_C_4.dll"]
+# Bây giờ chúng ta luôn chạy file tên là app.dll
+ENTRYPOINT ["dotnet", "app.dll"]
