@@ -1,8 +1,5 @@
 # BÁO CÁO DỰ ÁN: XÂY DỰNG WEBSITE QUẢN LÝ BÁN THỨC ĂN NHANH
 **Môn học:** Xây dựng ứng dụng C# ASP.NET Core MVC - Nâng cao
-**Lớp:** SD19311
-**Sinh viên thực hiện:** Phùng Xuân Dương
-**MSSV:** PS38124
 
 ---
 
@@ -45,7 +42,10 @@ Dự án xây dựng website quản lý và bán thức ăn nhanh, phục vụ n
 ### 2.1. Sơ đồ Use Case
 Hệ thống phân quyền rõ ràng giữa Admin và Nhân viên/Khách hàng.
 
-![Sơ đồ Use Case](LINK_ANH_USE_CASE_CUA_BAN)
+Sơ đồ Use Case
+
+<img width="1067" height="683" alt="image" src="https://github.com/user-attachments/assets/e7c96deb-82d8-4b87-9bf5-e318d0448a58" />
+
 
 ### 2.2. Đặc tả yêu cầu hệ thống (SRS)
 
@@ -64,9 +64,10 @@ Mô hình triển khai Client - Server:
 * **Server:** Máy chủ chứa Database (SQL Server/PostgreSQL) và source code Backend.
 * **Client:** Trình duyệt web của người dùng/nhân viên truy cập vào hệ thống.
 
-![Sơ đồ triển khai](LINK_ANH_SO_DO_TRIEN_KHAI)
+Sơ đồ triển khai
 
----
+<img width="411" height="352" alt="image" src="https://github.com/user-attachments/assets/c4146ce9-b077-4567-ad8d-96d8aa06b9ac" />
+
 
 ## 3. Thiết kế ứng dụng
 
@@ -79,21 +80,16 @@ Mô hình triển khai Client - Server:
 ### 3.2. Cơ sở dữ liệu (ERD)
 Sơ đồ quan hệ thực thể của dự án bao gồm các bảng: `AspNetUsers`, `Products`, `Orders`, `OrderDetails`, `Categories`, `Brands`, `Combos`.
 
-![Sơ đồ ERD](LINK_ANH_ERD_CUA_BAN)
+Sơ đồ ERD
 
-#### Chi tiết thực thể User (AspNetUsers):
-| Thuộc tính | Kiểu dữ liệu | Mô tả |
-|------------|--------------|-------|
-| Id | String (GUID) | Mã User |
-| UserName | String | Tên đăng nhập |
-| PasswordHash | String | Mật khẩu (đã mã hóa) |
-| Email | String | Email người dùng |
-| PhoneNumber | String | Số điện thoại |
+<img width="975" height="511" alt="image" src="https://github.com/user-attachments/assets/a7e1d855-568a-42f5-918b-6a5c652cc7da" />
 
 ### 3.3. Sơ đồ tổ chức giao diện
 Hệ thống được tổ chức theo luồng: Đăng nhập -> Trang chủ -> Các trang chức năng (Quản lý, Bán hàng).
 
-![Sơ đồ giao diện](LINK_ANH_SO_DO_GIAO_DIEN)
+Sơ đồ giao diện
+
+<img width="975" height="398" alt="image" src="https://github.com/user-attachments/assets/0f702502-87c7-4984-b2b6-29f1808d74e3" />
 
 ---
 
@@ -103,19 +99,35 @@ Hệ thống được tổ chức theo luồng: Đăng nhập -> Trang chủ -> 
 
 #### Trang chủ
 Hiển thị banner quảng cáo, danh sách các món ăn nổi bật (Best Seller), danh mục sản phẩm.
-![Giao diện Trang chủ](LINK_ANH_TRANG_CHU)
+
+Giao diện Trang chủ
+
+<img width="975" height="519" alt="image" src="https://github.com/user-attachments/assets/6837513c-d37f-4507-b0ab-abc69f7f2784" />
+
 
 #### Trang danh sách món ăn (Admin)
 Giao diện quản lý cho phép Admin xem danh sách dạng bảng, có nút Thêm, Sửa, Xóa.
-![Quản lý món ăn](LINK_ANH_QUAN_LY_MON_AN)
+
+Quản lý món ăn
+
+<img width="975" height="516" alt="image" src="https://github.com/user-attachments/assets/88083169-5269-49ba-8eac-f5f95fd365da" />
+
 
 #### Trang Giỏ hàng
 Hiển thị các món đã chọn, cho phép tăng giảm số lượng hoặc xóa món.
-![Giỏ hàng](LINK_ANH_GIO_HANG)
+
+Giỏ hàng
+
+<img width="975" height="325" alt="image" src="https://github.com/user-attachments/assets/d65c040c-260d-4b78-871f-5d108d6d17ca" />
+
 
 #### Trang Đăng nhập / Đăng ký
 Giao diện xác thực người dùng.
-![Đăng nhập](LINK_ANH_DANG_NHAP)
+
+Đăng nhập
+
+<img width="975" height="486" alt="image" src="https://github.com/user-attachments/assets/2d09391b-6acf-4ec5-b311-9bf828bda75b" />
+
 
 ### 4.2. Xây dựng Cơ sở dữ liệu
 Sử dụng kỹ thuật **Code First** trong Entity Framework Core để ánh xạ các Class C# (Model) thành bảng trong Database.
@@ -146,6 +158,12 @@ Sử dụng kỹ thuật **Code First** trong Entity Framework Core để ánh x
 ### 6.2. Khó khăn & Hướng phát triển
 * **Khó khăn:** Gặp một số vấn đề về cấu hình Deploy (Docker, IPv6 Mail), xử lý bất đồng bộ khi gửi mail.
 * **Hướng phát triển:** Tích hợp thanh toán Online (Momo/VNPAY), thêm chức năng chat trực tuyến hỗ trợ khách hàng.
+
+# 🍔 Web Bán Thức Ăn Nhanh (FastFood Shop)
+
+[![Deploy Status](https://img.shields.io/badge/Live_Demo-Online-success?style=for-the-badge&logo=render)](https://fastfood-shop-xtlg.onrender.com)
+
+> **Trải nghiệm website tại đây:** 👉 **[https://fastfood-shop-xtlg.onrender.com](https://fastfood-shop-xtlg.onrender.com)**
 
 ---
 © 2024 Phùng Xuân Dương - PS38124
