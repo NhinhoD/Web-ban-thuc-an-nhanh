@@ -166,4 +166,3 @@ Sử dụng kỹ thuật **Code First** trong Entity Framework Core để ánh x
 > **Trải nghiệm website tại đây:** 👉 **[https://fastfood-shop-xtlg.onrender.com](https://fastfood-shop-xtlg.onrender.com)**
 
 ---
-© 2024 Phùng Xuân Dương - PS38124
