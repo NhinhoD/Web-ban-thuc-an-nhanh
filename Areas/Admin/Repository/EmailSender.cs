@@ -36,7 +36,7 @@ namespace ASM_C_4.Areas.Admin.Repository
             {
                 // Kết nối đến Gmail port 465 (STARTTLS)
                 // MailKit sẽ tự động thử IPv4 nếu IPv6 lỗi -> Khắc phục được lỗi "Network Unreachable"
-                await client.ConnectAsync("smtp.gmail.com", 465, MailKit.Security.SecureSocketOptions.StartTls);
+                await client.ConnectAsync("smtp.gmail.com", 465, MailKit.Security.SecureSocketOptions.SslOnConnect);
 
                 // Đăng nhập
                 await client.AuthenticateAsync(myEmail, myPassword);
