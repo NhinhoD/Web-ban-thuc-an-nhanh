@@ -34,9 +34,9 @@ namespace ASM_C_4.Areas.Admin.Repository
             // 3. Gửi email bằng MailKit (SmtpClient của MailKit xịn hơn System.Net.Mail)
             using (var client = new SmtpClient())
             {
-                // Kết nối đến Gmail port 587 (STARTTLS)
+                // Kết nối đến Gmail port 465 (STARTTLS)
                 // MailKit sẽ tự động thử IPv4 nếu IPv6 lỗi -> Khắc phục được lỗi "Network Unreachable"
-                await client.ConnectAsync("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                await client.ConnectAsync("smtp.gmail.com", 465, MailKit.Security.SecureSocketOptions.StartTls);
 
                 // Đăng nhập
                 await client.AuthenticateAsync(myEmail, myPassword);
