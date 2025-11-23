@@ -107,7 +107,8 @@ namespace ASM_C_4.Controllers
                     var receiver = userEmail;
                     var subject = "Đặt hàng thành công";
                     var message = $"Đơn hàng của bạn đã được đặt thành công. Mã đơn hàng: {ordercode}";
-                    await _emailSender.SendEmailAsync(receiver, subject, message);
+                    // Code này vứt việc gửi mail sang luồng khác và chạy tiếp luôn
+                    Task.Run(() => _emailSender.SendEmailAsync(receiver, subject, message));
                 }
                 catch
                 {

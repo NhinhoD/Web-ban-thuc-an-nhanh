@@ -97,14 +97,27 @@
                         </tr>
                         <tr>
                             <td colspan="6" class="text-end">
-                                <a class="btn btn-danger btn-sm" asp-controller="Cart" asp-action="Clear">Xóa giỏ hàng</a>
+                                <a class="btn btn-danger btn-sm"
+                                   asp-controller="Cart"
+                                   asp-action="Clear"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa toàn bộ giỏ hàng không?');">
+                                    Xóa giỏ hàng
+                                </a>
+
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
-                                    <a class="btn btn-success btn-sm ms-2" asp-controller="Checkout" asp-action="Checkout">Thanh toán</a>
+                                    <a class="btn btn-success btn-sm ms-2"
+                                       asp-controller="Checkout"
+                                       asp-action="Checkout"
+                                       onclick="this.innerHTML='Đang xử lý...'; this.style.pointerEvents='none'; this.style.opacity='0.6';">
+                                        Thanh toán
+                                    </a>
                                 }
                                 else
                                 {
-                                    <a class="btn btn-success btn-sm ms-2" asp-controller="Account" asp-action="Login">Đăng nhập để thanh toán</a>
+                                    <a class="btn btn-success btn-sm ms-2" asp-controller="Account" asp-action="Login">
+                                        Đăng nhập để thanh toán
+                                    </a>
                                 }
                             </td>
                         </tr>
